@@ -24,7 +24,7 @@ async function run() {
     //     await client.connect();
     //   Connect to the Databases
     const menuCollection = client.db('bistroDb').collection('menu');
-    const reviewsCollection = client.db('bistroDb').collection('review');
+    const reviewsCollection = client.db('bistroDb').collection('reviews');
 
     app.get('/', (req, res) => {
       res.send('boss is sitting...');
@@ -33,6 +33,12 @@ async function run() {
     //     get all menus from database
     app.get('/menu', async (req, res) => {
       const result = await menuCollection.find().toArray();
+      res.send(result);
+    });
+
+    //     get all menus from database
+    app.get('/reviews', async (req, res) => {
+      const result = await reviewsCollection.find().toArray();
       res.send(result);
     });
 

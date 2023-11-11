@@ -21,10 +21,19 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //     await client.connect();
+    //   Connect to the Databases
+    const menuCollection = client.db('bistroDb').collection('menu');
+    const reviewsCollection = client.db('bistroDb').collection('review');
 
     app.get('/', (req, res) => {
       res.send('boss is sitting...');
+    });
+
+    //     get all menus from database
+    app.get('/menu', async (req, res) => {
+      const result = await menuCollection.find().toArray();
+      res.send(result);
     });
 
     app.listen(port, () => {
@@ -38,7 +47,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    //     await client.close();
   }
 }
 run().catch(console.dir);

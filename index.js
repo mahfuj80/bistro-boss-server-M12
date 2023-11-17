@@ -147,11 +147,18 @@ async function run() {
     app.patch('/menu/:id', async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
-      const updatedDoc = req.body;
+      const item = req.body;
       const updateDocument = {
-        $set: updatedDoc,
+        $set: {
+          name: item?.name,
+          category: item?.category,
+          price: item?.price,
+          recipe: item?.recipe,
+          image: item?.image,
+        },
       };
       const result = await menuCollection.updateOne(filter, updateDocument);
+      res.send(result);
     });
 
     app.post('/menu', verifyToken, verifyAdmin, async (req, res) => {
